@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+import os
 app = Flask(__name__)
 
 
@@ -16,10 +17,11 @@ def favicon():
 @app.route('/hello', methods=['POST'])
 def hello():
    name = request.form.get('name')
+   version = os.environ['APPLICATION_VERSION']
 
    if name:
        print('Request for hello page received with name=%s' % name)
-       return render_template('hello.html', name = name)
+       return render_template('hello.html', name = name, version = version)
    else:
        print('Request for hello page received with no name or blank name -- redirecting')
        return redirect(url_for('index'))
